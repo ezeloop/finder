@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Pet } from './../../pets/entities/pet.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class User {
@@ -20,4 +21,15 @@ export class User {
 
   @Column()
   password: string;
+
+  @CreateDateColumn({
+    name: 'creation_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP'
+  })
+  creationAt: Date;
+
+  @OneToMany(() => Pet, (pet) => pet.owner)
+  pets: Pet[]
+
 }
