@@ -1,5 +1,6 @@
 import { Pet } from './../../pets/entities/pet.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { hash } from 'bcryptjs';
 
 @Entity()
 export class User {
@@ -30,6 +31,15 @@ export class User {
   creationAt: Date;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
-  pets: Pet[]
+  pets: Pet[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (!this.password) {
+      return;
+    }
+    this.password = await hash(this.password, 10);
+  }
 
 }

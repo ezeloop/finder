@@ -1,6 +1,6 @@
 import { Photo } from '../../photos/entities/photo.entity';
 import { User } from '../../users/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Pet {
@@ -26,7 +26,7 @@ export class Pet {
   @OneToMany(() => Photo, (photo) => photo.pet)
   photos: Photo[];
 
-  @OneToOne(()=> User, (user) => user.pets)
+  @ManyToOne(()=> User, (user) => user.pets)
   @JoinColumn({ name: 'user_id'})
   owner: User;
 
