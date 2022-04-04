@@ -13,7 +13,7 @@ export class UsersService {
 
   findAll() {
     return this.userRepository.find({
-      relations: ['pets', 'pets.photos']
+      relations: ['pets', 'pets.photos', 'province']
     });
   }
 
@@ -25,14 +25,14 @@ export class UsersService {
     return user;
   }
 
-  async create(dto: createUserDto) {
-    const userExist = await this.userRepository.findOne({ email: dto.email });
+  async create(body: any) {
+    const userExist = await this.userRepository.findOne({ email: body.email });
     if (userExist)
-      throw new BadRequestException(`User already registered with email: ${dto.email}`);
-    const newUser = this.userRepository.create(dto);
+      throw new BadRequestException(`User already registered with email: ${body.email}`);
+    const newUser = this.userRepository.create(body);
     const user = await this.userRepository.save(newUser);
 
-    delete user.password;
+    delete body.password;
     return user;
   }
 

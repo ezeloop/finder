@@ -1,5 +1,6 @@
+import { Province } from './../../provinces/entities/province.entity';
 import { Pet } from './../../pets/entities/pet.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, BeforeInsert, BeforeUpdate, ManyToOne, JoinColumn } from 'typeorm';
 import { hash } from 'bcryptjs';
 
 @Entity()
@@ -22,6 +23,12 @@ export class User {
 
   @Column()
   password: string;
+
+  //falta logica ubicacion
+  @Column()
+  @ManyToOne(()=> Province, (province) => province.id)
+  @JoinColumn({ name: 'province'})
+  province: Province;
 
   @CreateDateColumn({
     name: 'creation_at',

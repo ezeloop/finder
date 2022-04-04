@@ -12,7 +12,7 @@ export class PetsService {
 
   findAll() {
     return this.petRepository.find(
-      {relations: ['photos', 'owner']}
+      {relations: ['photos', 'owner', 'typeOfAnimal']}
     );
   }
 

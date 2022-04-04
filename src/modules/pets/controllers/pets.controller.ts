@@ -1,3 +1,4 @@
+import { createPetDto } from './../dto/create-pet.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards } from "@nestjs/common";
 import { PetsService } from "../services/pets.service";
@@ -21,8 +22,9 @@ export class PetsController {
 
   // @UseGuards(AuthGuard('jwt'))
   @Post()
-  create(@Body() body: any) {
-    return this.petsService.create(body);
+  async create(@Body() dto: createPetDto) {
+    const data = await this.petsService.create(dto);
+    return { message: 'Pet created', data };
   }
 
   // @UseGuards(AuthGuard('jwt'))
